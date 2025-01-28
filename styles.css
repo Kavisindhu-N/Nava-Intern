@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header li,h1,ul,nav
+{
+   display: inline; /*nav does not aling properly if it is inline block */
+}
+
+header img {
+    height: 25px;
+}
+
+header ul {
+    margin-left: 60%;
+}
+
+header ul>li {
+    margin-left: 20px;
+}
+
+header {
+    padding: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.main {
+    /* background-image: url("main.jpg"); */
+    background-image: url("main.jpg");
+    height: 500px;
+    width: 100%;
+    background-size: cover;/*Ensures the image covers the div completely */
+    background-position: center;
+    
+
+}
+
+.submain {
+    height: 300px;
+    width: 400px;
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 80;
+    margin-left: 10%;
+    margin-top: 50px;
+    border-radius: 20px;
+    color: white;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.submain:hover {
+    transform: scale(1.1);
+    transition: 1s;
+}
+
+.inventory1 {
+    display: flex;
+    /* margin-top: 50px; */
+}
+.inventory1>h3,p,h4{
+    margin: 3px;
+}
+
+.inventory1>.img1>img {
+    width: 400px;
+    background-size: cover;
+}
+
+.inventory1>.img1>img:hover{
+    transform: scale(1.1);
+    transition: 1s;
+}
+
+.inventory1>.img1 {
+    margin: 50px;
+}
+
+.inventory1>.img1spec {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.inventory1>.img1spec {
+    margin: 50px;
+}
