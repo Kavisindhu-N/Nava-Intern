@@ -3,20 +3,33 @@
     padding: 0;
 }
 
-header li,h1,ul,nav
-{
-   display: inline; /*nav does not aling properly if it is inline block */
+html {
+    scroll-behavior: smooth;
 }
 
-header img {
+header>h1,
+nav,
+ul,
+li {
+    display: inline;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    /* inherits the color from the parent */
+
+}
+
+header>img {
     height: 25px;
 }
 
-header ul {
+header>nav>ul {
     margin-left: 60%;
 }
 
-header ul>li {
+header>nav>ul>li {
     margin-left: 20px;
 }
 
@@ -24,16 +37,17 @@ header {
     padding: 20px;
     color: white;
     font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .main {
-    /* background-image: url("main.jpg"); */
     background-image: url("main.jpg");
     height: 500px;
     width: 100%;
-    background-size: cover;/*Ensures the image covers the div completely */
+    background-size: cover;
+    /*Ensures the image covers the div completely */
     background-position: center;
-    
+
 
 }
 
@@ -41,7 +55,7 @@ header {
     height: 300px;
     width: 400px;
     background-color: rgba(0, 0, 0, 0.8);
-    opacity: 80;
+    /* opacity: 80; */
     margin-left: 10%;
     margin-top: 50px;
     border-radius: 20px;
@@ -62,21 +76,24 @@ header {
     display: flex;
     /* margin-top: 50px; */
 }
-.inventory1>h3,p,h4{
+
+.inventory1>h3,
+p,
+h4 {
     margin: 3px;
 }
 
 .inventory1>.img1>img {
     width: 400px;
-    background-size: cover;
+    /* background-size: cover; */
 }
 
-.inventory1>.img1>img:hover{
+.inventory1>.img1>img:hover {
     transform: scale(1.1);
     transition: 1s;
 }
 
-.inventory1>.img1 {
+.inventory1 {
     margin: 50px;
 }
 
@@ -88,4 +105,41 @@ header {
 
 .inventory1>.img1spec {
     margin: 50px;
+}
+
+/* footer{
+    img{
+        width: 50px;
+        height: 50px;
+       
+    }
+    
+} */
+
+footer {
+    background-color: black;
+}
+
+footer>.logo>a>img {
+    width: 50px;
+    height: 50px;
+}
+
+footer>.logo {
+    display: flex;
+    justify-content: space-around;
+
+    padding: 50px;
+}
+
+footer>h3 {
+    text-align: center;
+    position: relative;
+    top: 10px;
+    color: white;
+}
+
+footer>.logo>a>img:hover {
+    transform: scale(1.4);
+    transition: 1s;
 }
