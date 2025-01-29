@@ -29,6 +29,18 @@ header>nav>ul {
     margin-left: 60%;
 }
 
+@media screen and (max-width:1094px){
+    header>nav>ul {
+        margin-left: 25%;
+    }
+}
+
+@media screen and (max-width:610px){
+    header>nav>ul {
+        margin-left: 0;
+    }
+}
+
 header>nav>ul>li {
     margin-left: 20px;
 }
@@ -41,12 +53,12 @@ header {
 }
 
 .main {
-    background-image: url("main.jpg");
+    background-image: url("img/main.jpg");
     height: 500px;
     width: 100%;
     background-size: cover;
     /*Ensures the image covers the div completely */
-    background-position: center;
+    /* background-position: center; */
 
 
 }
@@ -74,7 +86,15 @@ header {
 
 .inventory1 {
     display: flex;
+    
     /* margin-top: 50px; */
+}
+
+@media  screen and (max-width:1063px) {
+    .inventory1{
+        display: block;
+    }
+    
 }
 
 .inventory1>h3,
@@ -142,4 +162,13 @@ footer>h3 {
 footer>.logo>a>img:hover {
     transform: scale(1.4);
     transition: 1s;
+}
+
+
+.lo{
+    position: fixed;
+    left: 97%;
+    top: 450px;
+    width: 50px;
+    height: 50px;;
 }
