@@ -29,17 +29,6 @@ header>nav>ul {
     margin-left: 60%;
 }
 
-@media screen and (max-width:1094px){
-    header>nav>ul {
-        margin-left: 25%;
-    }
-}
-
-@media screen and (max-width:610px){
-    header>nav>ul {
-        margin-left: 0;
-    }
-}
 
 header>nav>ul>li {
     margin-left: 20px;
@@ -53,13 +42,24 @@ header {
 }
 
 .main {
-    background-image: url("img/main.jpg");
+    /* background-image: url("img/main.jpg"); */
     height: 500px;
-    width: 100%;
-    background-size: cover;
+    /* width: 100%; */
+    /* background-size: cover; */
     /*Ensures the image covers the div completely */
     /* background-position: center; */
 
+
+}
+
+.main > video{
+    position: absolute;
+    top: 0%;
+    object-fit: cover; 
+    background-size: cover;
+    width: 100%;
+    height: 500px;
+    z-index: -1;
 
 }
 
@@ -88,13 +88,6 @@ header {
     display: flex;
     
     /* margin-top: 50px; */
-}
-
-@media  screen and (max-width:1063px) {
-    .inventory1{
-        display: block;
-    }
-    
 }
 
 .inventory1>h3,
@@ -167,8 +160,100 @@ footer>.logo>a>img:hover {
 
 .lo{
     position: fixed;
-    left: 97%;
+    left: 96%;
     top: 450px;
     width: 50px;
     height: 50px;;
 }
+
+
+ @media screen and (max-width:1094px)    /*medium screen */
+ {  
+    header>nav>ul 
+    {
+        margin-left: 25%;
+    }
+}
+
+@media screen and (max-width:632px)      /*medium screen */
+{     
+    header>nav>ul 
+    {
+        margin-left: 0%;
+    }
+}
+
+/* @media screen and (max-width:488px){
+    header>nav>ul>li {
+        margin-left: 10px;
+    }
+} */
+
+@media  screen and (max-width:1094px) 
+{
+    #newmodels>.inventory1>.img1spec>.model_description
+    {
+        position: relative;
+        top: 150px;
+        right: 455px;
+        width: 900px;
+    }
+    
+}
+@media  screen and (max-width:965px) 
+{
+    #newmodels>.inventory1>.img1spec>.model_description
+    {
+        position: relative;
+        top: 150px;
+        right: 455px;
+        width: 700px;
+    }
+}
+@media  screen and (max-width:751px) 
+{
+    #newmodels>.inventory1>.img1spec>.model_description
+    {
+        position: relative;
+        top: 100px;
+        right: 357px;
+        width: 500px;
+    }
+    
+    .inventory1>.img1>img
+    {
+        width: 300px;
+    }
+
+    .inventory1>.img1spec>h3,h4,.type
+    {
+        font-size: smaller;
+    }
+
+}
+
+
+
+
+
+@media  screen and (max-width:1094px) 
+{
+    #newmodels>.inventory1:nth-of-type(2)>.img1spec>.model_description
+    {
+        position: relative;
+        /* top: 150px;
+        left: 1px;
+        width: 1000px; */
+    }
+    
+}
+
+
+@media screen and (max-width:1094px)
+{
+.inventory1 
+{
+    margin-top: 100px;
+}
+}
+
