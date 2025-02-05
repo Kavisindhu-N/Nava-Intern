@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>STUDENT RECORD FORM</h1>
+
+    Name : <input id="name">
+    email : <input id="email">
+    rollno : <input id="roll">
+    dob : <input id="dob">
+    
+    <button onclick="record()">display</button>
+    <button onclick="resetForm()">Clear</button>
+
+    <P id="dis"></P>
+
+    <script>
+
+        var name1 = document.getElementById("name")
+        var email = document.getElementById("email")
+        var rollno = document.getElementById("roll")
+        var dob = document.getElementById("dob")
+        var view = document.getElementById("dis")
+
+
+
+
+        function record() {
+
+            var namevalue = name1.value
+            var emailvalue = email.value
+            var rollvalue = rollno.value
+            var dobvalue = dob.value
+
+            console.log(namevalue , emailvalue,rollvalue,dobvalue) // To print in Console
+            
+            var  vv = "Student Name :" + namevalue + "<br>"+
+                      "Student Email :" + emailvalue + "<br>"+ 
+                      "Student Roll No :" + rollvalue + "<br>" +
+                      "Student DOB :" + dobvalue
+            
+            //inserting the output into the p tag
+            view.innerHTML= vv
+        }
+
+        function resetForm() {
+        name1.value = "";
+        email.value = "";
+        rollno.value = "";
+        dob.value = "";
+        view.innerHTML = "";
+    }
+    </script>
+
+
+
+
+
+    <h1>MARKS RECORD FORM</h1>
+
+    Tamil : <input id="tamil">
+    English : <input id="english">
+    Maths : <input id="maths">
+    Science : <input id="science">
+    Social : <input id="social">
+
+    <button onclick="add()">Total</button>
+    <button onclick="reset()">Clear</button>
+
+    <P id="display"></P>
+
+    <script>
+
+        var tamil = document.getElementById("tamil")
+        var english = document.getElementById("english")
+        var maths = document.getElementById("maths")
+        var science = document.getElementById("science")
+        var social = document.getElementById("social")
+        var re = document.getElementById("display")
+
+
+
+
+        function add() {
+            var tamilvalue = Number(tamil.value)
+            var englishvalue = Number(english.value)
+            var mathsvalue = Number(maths.value)
+            var sciencevalue = Number(science.value)
+            var socialvalue = Number(social.value)
+
+            var total = tamilvalue + englishvalue + mathsvalue + sciencevalue + socialvalue
+
+            re.textContent = total
+            
+            console.log(re.textContent)
+        }
+
+        function reset() {
+            
+        tamil.value = "";
+        english.value = "";
+        maths.value = "";
+        science.value = "";
+        social.value = "";
+        re.innerHTML = "";
+    }
+    </script>
+</body>
+
+</html>
