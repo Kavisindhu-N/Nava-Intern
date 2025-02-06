@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <!-- <script src="script.js" defer></script> -->
+    <style>
+        /* Form1 Style */
+        #form1 {
+            display: none;
+        }
+
+        #form1>input {
+            display: block;
+        }
+
+        .container1 {
+            background-color: black;
+            color: rgb(197, 189, 189);
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .container1>#form1>input {
+            margin: 10px;
+            width: 250px;
+            height: 30px;
+            border: none;
+        }
+
+        .container1>#form1>.btn {
+            background-color: orangered;
+            color: white;
+            border: none;
+            padding: 20px;
+            cursor: pointer;
+
+        }
+
+        /* form2 Style */
+        #form2 {
+            display: none;
+        }
+
+        #form2>input {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Buttons to View the Forms  -->
+    <button onclick="addForm1()"> Student Details</button>
+    <button onclick="addForm2()"> Mark Details</button>
+
+
+
+    <!-- Student Form -->
+    <div class="container1">
+        <form action="" id="form1">
+
+            <h1>Students Record</h1>
+
+            First Name : <input id="fname">
+            <p class="name-class"></p>
+            Middle Name : <input id="mname">
+            <p class="name-class"></p>
+            Last Name : <input id="lname">
+            <p class="name-class"></p>
+            Age : <input id="age">
+            <p id="age-id"></p>
+            DOB : <input id="dob" type="date">
+            email : <input id="email" type="email">
+            Mobile No : <input id="num">
+            <p id="number-id"></p>
+
+            <input type="submit" onclick="displayStudent(event)" class="btn">
+            <input class="btn" type="reset">
+            <!-- <button onclick="clearStudent(event)">Clear</button> -->
+        </form>
+    </div>
+
+    <!-- Marks Form  -->
+    <form id="form2" action="">
+        <h1>Marks Record</h1>
+        Tamil : <input type="number" id="tamil">
+        <p class="error-mark"></p>
+        English : <input type="number" id="english">
+        <p class="error-mark"></p>
+        Maths : <input type="number" id="maths">
+        <p class="error-mark"></p>
+        Science : <input type="number" id="science">
+        <p class="error-mark"></p>
+        Social : <input type="number" id="social">
+        <p class="error-mark"></p>
+
+        <input type="submit" onclick="displayMark(event)">
+        <input type="reset">
+    </form>
+
+
+
+    <!-- js for front buttons-->
+    <script>
+        function addForm1() {
+            document.getElementById("form1").style.display = "block";
+            document.getElementById("form2").style.display = "none";
+        }
+
+        function addForm2() {
+            document.getElementById("form1").style.display = "none";
+            document.getElementById("form2").style.display = "block";
+        }
+
+
+        // student form submission(validation and preview in alert box as well as console) 
+        function displayStudent(event) {
+            event.preventDefault();
+
+            var fname_input = document.getElementById("fname").value;
+            var mname_input = document.getElementById("mname").value;
+            var lname_input = document.getElementById("lname").value;
+            var age_input = document.getElementById("age").value;
+            var dob_input = document.getElementById("dob").value;
+            var email_input = document.getElementById("email").value;
+            var mobile_input = document.getElementById("num").value;
+
+            if (fname_input === "" || mname_input === "" || lname_input === "") {
+                // var error = "Should not be empty";
+                var error_name = document.getElementsByClassName("name-class"); //p
+                error_name[0].textContent = "should not be empty";
+                error_name[1].textContent = "should not be empty";
+                error_name[2].textContent = "should not be empty";
+            }
+
+            else if (isNaN(age_input) || age_input >= 22) {
+                var error_age = document.getElementById("age-id");
+                error_age.textContent = "Age should be 18 or below 18"
+            }
+
+            else if (isNaN(mobile_input) || mobile_input.length !== 10) {
+                var error_number = document.getElementById("number-id");
+                error_number.textContent = "Invalid Number";
+            }
+            else {
+                alert(fname_input + ', ' + mname_input + ', ' + lname_input + ', ' + age_input + ', ' + dob_input + ', ' + email_input + ', ' + mobile_input);
+
+                console.log(fname_input, mname_input, lname_input, age_input, dob_input, email_input, mobile_input);
+            }
+
+
+        }
+
+        // function clearStudent(event) {
+        // event.preventDefault();
+        //     fname_input.value = "";
+        //     mname_input.value = "";
+        //     lname_input.value= "";
+        //     age_input.value = "";
+        //     dob_input.value = "";
+        //     email_input.value = "";
+        //     mobile_input.value = "";
+        // }
+
+
+
+        //Marks form submission(validation and preview in alert box as well as console) 
+
+        function displayMark(event) {
+            event.preventDefault();
+            var tamil_mark = Number(document.getElementById("tamil").value);
+            var english_mark = Number(document.getElementById("english").value);
+            var maths_mark = Number(document.getElementById("maths").value);
+            var science_mark = Number(document.getElementById("science").value);
+            var social_mark = Number(document.getElementById("social").value);
+           
+
+
+            if (tamil_mark >= 111 || english_mark >= 111 || maths_mark >= 111 || science_mark >=111 || social_mark >=111) {
+                var error_mark1 = document.getElementsByClassName("error-mark");
+                error_mark1[0].textContent = "invalid input";
+                error_mark1[1].textContent = "invalid input";
+                error_mark1[2].textContent = "invalid input";
+                error_mark1[3].textContent = "invalid input";
+                error_mark1[4].textContent = "invalid input";
+
+            }
+            else {
+
+                var total = tamil_mark + english_mark + maths_mark + science_mark + social_mark;
+
+                alert("Tamil : " + tamil_mark + "\n" +
+                    "English : " + english_mark + " \n" +
+                    "Maths : " + maths_mark + "\n" +
+                    "Science : " + science_mark + "\n" +
+                    "Social : " + social_mark + "\n" +
+                    "Total : " + total);
+
+                console.log(tamil_mark, english_mark, maths_mark, science_mark, social_mark);
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>
