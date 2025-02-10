@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Bits and Bytes</h1>
+
+    <form>
+
+        <div id="inputgroup1">
+
+            <div class="container">
+
+                <p id="q1">What is the basic unit of data in computing? </p>
+
+                <label><input type="radio" name="question1" value="Bit"> Bit </label>
+
+                <label><input type="radio" name="question1" value="Byte"> Byte </label>
+
+                <label><input type="radio" name="question1" value="Megabyte"> Megabyte </label>
+
+                <label><input type="radio" name="question1" value="Terabyte"> Terabyte </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup2">
+
+            <div class="container">
+
+                <p id="q2"> How many bits are there in a byte? </p>
+
+                <label> <input type="radio" name="question2" value="4 bits"> 4 bits </label>
+
+                <label> <input type="radio" name="question2" value="8 bits"> 8 bits </label>
+
+                <label> <input type="radio" name="question2" value="16 bits"> 16 bits </label>
+
+                <label> <input type="radio" name="question2" value="32 bits"> 32 bit </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup3">
+
+            <div class="container">
+
+                <p id="q3"> What is the binary representation of the decimal number 10? </p>
+
+                <label> <input type="radio" name="question3" value="1010"> 1010 </label>
+
+                <label> <input type="radio" name="question3" value="1100"> 1100 </label>
+
+                <label> <input type="radio" name="question3" value="1111"> 1111 </label>
+
+                <label> <input type="radio" name="question3" value="1001"> 1001 </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup4">
+
+            <div class="container">
+
+                <p id="q4">How many byt es are in a kilobyte (KB)? </p>
+
+                <label> <input type="radio" name="question4" value="1000 bytes"> 1000 bytes </label>
+
+                <label> <input type="radio" name="question4" value="1024 bytes"> 1024 bytes </label>
+
+                <label> <input type="radio" name="question4" value="1048576 bytes"> 1048576 bytes </label>
+
+                <label> <input type="radio" name="question4" value="1000000 bytes"> 1000000 bytes </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup5">
+
+            <div class="container">
+
+                <p id="q5"> What is the next data unit larger than a terabyte (TB)? </p>
+
+                <label> <input type="radio" name="question5" value="pb"> Petabyte (PB) </label>
+
+                <label> <input type="radio" name="question5" value="gb"> Gigabyte (GB) </label>
+
+                <label> <input type="radio" name="question5" value="eb"> Exabyte (EB) </label>
+
+                <label> <input type="radio" name="question5" value="zb"> Zettabyte (ZB) </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup6">
+
+            <div class="container">
+
+                <p id="q6"> How many bits are in a nibble? </p>
+
+                <label> <input type="radio" name="question6" value="2 bits"> 2 bits </label>
+
+                <label> <input type="radio" name="question6" value="4 bits"> 4 bits </label>
+
+                <label> <input type="radio" name="question6" value="8 bits"> 8 bits </label>
+
+                <label> <input type="radio" name="question6" value="16 bits"> 16 bits </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup7">
+
+            <div class="container">
+
+                <p id="q7"> What is the binary representation of the decimal number 25? </p>
+
+                <label> <input type="radio" name="question7" value="11001"> 11001 </label>
+
+                <label> <input type="radio" name="question7" value="11100"> 11100 </label>
+
+                <label> <input type="radio" name="question7" value="11010"> 11010 </label>
+
+                <label> <input type="radio" name="question7" value="10101"> 10101 </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup8">
+
+            <div class="container">
+
+                <p id="q8"> How many kilobytes (KB) are in a megabyte (MB)? </p>
+
+                <label> <input type="radio" name="question8" value="1000 kb"> 1000 KB </label>
+
+                <label> <input type="radio" name="question8" value="1024 kb"> 1024 KB </label>
+
+                <label> <input type="radio" name="question8" value="1048576 kb"> 1048576 KB </label>
+
+                <label> <input type="radio" name="question8" value="1000000 kb"> 1000000 KB </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup9">
+
+            <div class="container">
+
+                <p id="q9"> What is the next data unit smaller than a byte? </p>
+
+                <label> <input type="radio" name="question9" value="bit"> bit </label>
+
+                <label> <input type="radio" name="question9" value="nibble"> Nibble </label>
+
+                <label> <input type="radio" name="question9" value="kilobyte"> Kilobyte </label>
+
+                <label> <input type="radio" name="question9" value="megabyte"> Megabyte </label>
+
+                <input type="submit" value="submit" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+        <div id="inputgroup10">
+
+            <div class="container">
+
+                <p id="q10"> How many bytes are in a gigabyte (GB)? </p>
+
+                <label> <input type="radio" name="question10" value="1024 bytes"> 1024 bytes </label>
+
+                <label> <input type="radio" name="question10" value="1048576 bytes"> 1048576 bytes </label>
+
+                <label> <input type="radio" name="question10" value="1073741824 bytes"> 1073741824 bytes </label>
+
+                <label> <input type="radio" name="question10" value="1000000000 bytes"> 1000000000 bytes </label>
+
+                <input type="submit" value="Validate" onclick="nextQuestion(event)">
+
+            </div>
+
+        </div>
+
+    </form>
+
+</body>
+
+</html>

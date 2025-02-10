@@ -1,0 +1,56 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: rgb(238, 174, 202);
+    background: radial-gradient(circle, rgba(238, 174, 202, 1) 25%, rgba(148, 187, 233, 1) 100%);
+}
+
+label {
+    display: block;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 30px;
+   
+}
+
+
+#inputgroup1,#inputgroup2,#inputgroup3,#inputgroup4,#inputgroup5,#inputgroup6,#inputgroup7,#inputgroup8,#inputgroup9,#inputgroup10{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    
+}
+.container{
+    position: absolute;
+    width: 800px;
+}
+
+.container > p {
+ font-family: Georgia, 'Times New Roman', Times, serif;
+ font-size: 25px;
+ margin: 20px;
+}
+
+.container > label{
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+input[type="submit"]{
+    background-color: inherit;
+    border: 1px solid black;
+    cursor: pointer;
+    padding: 10px;
+    width: 80%;
+    margin-top: 15px;
+}
+
+label:hover{
+    font-weight: bold;
+}
