@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Sign up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+
+
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            font-family: "Montserrat", sans-serif;
+            background: url('img/slide1.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .overlay {
+            background-color: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(7px);
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .auth-container> ::placeholder {
+            color: grey;
+        }
+
+        .auth-container {
+            display: flex;
+            background-color: black;
+            color: white;
+            width: 300px;
+            flex-direction: column;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            /* background-color: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(10px); */
+
+
+            p {
+                margin-top: 20px;
+                font-size: 13px;
+                /* text-align: left; */
+
+                button {
+                    width: fit-content;
+                    font-size: 14px;
+                    padding: 0;
+                    background: none;
+                    border-bottom: 1px solid dodgerblue;
+                    cursor: pointer;
+                    color: dodgerblue;
+
+
+                }
+
+            }
+
+            label {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+            }
+
+        }
+
+        .auth-container>input {
+            /* width: 300px; */
+            border: none;
+            background-color: transparent;
+            border-bottom: 1px solid dodgerblue;
+            outline: none;
+            padding: 10px;
+            color: white;
+            margin-bottom: 20px;
+
+        }
+
+        button {
+            font-size: 17px;
+            padding: 0.5em 2em;
+            border: none;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            background: dodgerblue;
+            color: white;
+
+
+        }
+
+        button:hover {
+
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(30, 144, 255, 1) 0%, rgba(0, 212, 255, 1) 100%);
+        }
+
+        .auth-container>.button {
+            display: flex;
+            width: 100%;
+
+            /* button:first-child {
+                border-right: 1px solid black;
+            } */
+
+            /* button {
+                flex-basis: 50%;
+                border: none;
+                padding: 10px;
+                background-color: dodgerblue;
+            } */
+        }
+
+        .auth-container>label {
+            margin-bottom: 13px;
+        }
+
+        
+
+        .hidden {
+            display: none;
+        }
+    </style>
+
+</head>
+
+
+
+
+<body>
+
+    <div class="overlay">
+
+        <!-- SIGN UP FORM-->
+
+        <div class="auth-container sign-up">
+            <h2>Sign up</h2>
+            <input type="text" placeholder="Name" id="signup-name">
+            <input type="email" placeholder="Email" id="signup-email">
+            <input type="password" placeholder="Password" id="signup-password">
+            <button type="button" onclick="signUp(event)">Sign up</button>
+            <p>Alraedy have an account ? Please <button id="loginButton">Sign In</button></p>
+        </div>
+
+
+
+        <!-- LOGIN FORM -->
+
+        <div class="auth-container login">
+            <h2>Login</h2>
+            <input type="email" placeholder="Email" id="login-email">
+            <input type="password" placeholder="Password" id="login-password">
+            <button type="button" onclick="login(event)">Login</button>
+            <p>Don't have an account? Please <button id="signupButton">Sign Up</button></p>
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        //Prevent the user from login page if they alresdy logged in
+        const loggedInUserId = localStorage.getItem("loggedInUser");
+        if (loggedInUserId) {
+            window.location.href = "user.html";
+        }
+
+
+
+
+        
+        //  VISIBILITY OF SIGN UP AND LOGIN FROM
+        document.querySelector(".sign-up").classList.add("hidden");
+
+        let loginButton = document.getElementById("loginButton");
+        let signButton = document.getElementById("signupButton");
+
+
+        // display Login Form
+        loginButton.addEventListener("click", displayLogin);
+
+        function displayLogin(event) {
+            event.preventDefault();
+            document.querySelector(".sign-up").classList.add("hidden");
+            document.querySelector(".login").classList.remove("hidden");
+        }
+
+
+        //display Sign Up form
+        signupButton.addEventListener("click", displaySignup);
+
+        function displaySignup(event) {
+            event.preventDefault();
+            document.querySelector(".sign-up").classList.remove("hidden");
+            document.querySelector(".login").classList.add("hidden");
+        }
+
+
+        // Reset form input after the submission
+        function resetForm() {
+            document.getElementById("signup-name").value = "";
+            document.getElementById("signup-email").value = "";
+            document.getElementById("signup-password").value = "";
+            document.getElementById("login-email").value = "";
+            document.getElementById("login-password").value = "";
+        }
+
+
+
+
+
+        // SIGN UP VALIDATIONS
+        async function signUp(event) {
+            event.preventDefault();
+
+            try {
+                // Getting input values
+                let signup_name = document.getElementById("signup-name").value.trim();
+                let signup_email = document.getElementById("signup-email").value.trim();
+                let signup_password = document.getElementById("signup-password").value.trim();
+
+                // Check if any field is empty
+                if (!signup_name || !signup_email || !signup_password) {
+                    alert("Please fill in all fields!");
+                    return;
+                }
+
+                // Fetch user & admin data in DB
+                let responseUsers = await fetch("http://localhost:3000/users");
+                let responseAdmin = await fetch("http://localhost:3000/admin");
+
+                if (!responseUsers.ok || !responseAdmin.ok) {
+                    throw new Error("Failed to fetch user or admin data.");
+                }
+
+                let users = await responseUsers.json();
+                let admin = await responseAdmin.json();
+
+                // Checking whether it is an existing user or an admin
+                let existingUser = users.find(user => user.email === signup_email);
+                console.log(existingUser);
+
+                let adminLogin = admin.email === signup_email ? admin : null;
+
+                if (existingUser) {
+                    alert("User already exists! Please log in.");
+                    resetForm();
+                    displayLogin(event);
+                    return;
+                }
+
+                if (adminLogin) {
+                    alert("You are an admin, Please log in.");
+                    resetForm();
+                    displayLogin(event);
+                    return;
+                }
+
+                // Registering new user
+                let newUser = {
+                    name: signup_name,
+                    email: signup_email,
+                    password: signup_password,
+                    cart: []
+                };
+
+                let res = await fetch("http://localhost:3000/users", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(newUser)
+                });
+
+                if (!res.ok) {
+                    throw new Error("Error signing up");
+                }
+
+                alert("Signup successful! Please log in.");
+                resetForm();
+                displayLogin(event);
+            }
+
+            catch (error) {
+                console.error("Signup Error:", error);
+                alert(error.message);
+            }
+        }
+
+
+
+
+
+        // LOGIN VALIDATIONS
+        async function login(event) {
+            event.preventDefault();
+
+            try {
+                // Getting Input Values
+                let login_email = document.getElementById("login-email").value.trim();
+                let login_password = document.getElementById("login-password").value.trim();
+
+
+                // Validation to prevent empty fields
+                if (!login_email || !login_password) {
+                    alert("Please fill in all fields!");
+                    return;
+                }
+
+                // Fetch user & admin data with error handling
+                let responseUsers = await fetch("http://localhost:3000/users");
+                let responseAdmin = await fetch("http://localhost:3000/admin");
+
+                if (!responseUsers.ok || !responseAdmin.ok) {
+                    throw new Error("Failed to fetch user or admin data.");
+                }
+
+                let users = await responseUsers.json();
+                let admin = await responseAdmin.json();
+
+                // Validation of user and admin
+                let existingUser = users.find(user => user.email === login_email);
+                console.log(existingUser);
+
+                let adminLogin = admin.email === login_email ? admin : null;
+                console.log(adminLogin);
+
+                // Validation of user credentials and redirecting them to user Dashboard
+                if (existingUser) {
+                    if (existingUser.password !== login_password) {
+                        alert("Invalid Password");
+                        return;
+                    } else {
+                        
+                        localStorage.setItem("loggedInUser", existingUser.id);
+                        localStorage.setItem("loggedInUserName", existingUser.name);
+                        
+                        window.alert("Login Successful");
+                        window.location.href = "user.html";
+                        resetForm();
+                        return;
+                    }
+                }
+
+                // Validation of admin credentials and Redirecting them to admin dashboard
+                if (adminLogin) {
+                    if (adminLogin.password !== login_password) {
+                        alert("Invalid Password");
+                        return;
+                    } else {
+                        window.alert("Login Successful");
+                        window.location.href = "admin.html";
+                        return;
+                    }
+                }
+
+                alert("User not found! Please sign up first.");
+                resetForm();
+                displaySignup(event);
+
+            } catch (error) {
+                console.error("Login Error:", error);
+                console.log(error.message);
+                alert(error.message);
+            }
+
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>

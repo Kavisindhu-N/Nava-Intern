@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": "5515",
+      "name": "kavisindhu",
+      "email": "kavisindhunatarajan@gmail.com",
+      "password": "k"
+    },
+    {
+      "id": "699e",
+      "name": "m",
+      "email": "mm@gmail.com",
+      "password": "m"
+    }
+  ],
+  "admin": {
+    "email": "admin@gmail.com",
+    "password": "admin@123"
+  },
+  "products": [],
+  "cart": [
+    {
+      "id": "0650",
+      "productId": null
+    }
+  ]
+}

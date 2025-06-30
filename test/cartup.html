@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .cart-img img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .cart-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .product-price {
+            color: green;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Your Cart</h2>
+    <div class="cart-container"></div>
+
+    <script>
+        async function loadCart() {
+            const loggedInEmail = sessionStorage.getItem("loggedInUser"); // Use sessionStorage
+
+            if (!loggedInEmail) {
+                alert("Please log in first!");
+                window.location.href = "login.html"; // Redirect if not logged in
+                return;
+            }
+
+            try {
+                // Fetch the correct user from DB
+                const responseUsers = await fetch(`http://localhost:3000/users?email=${loggedInEmail}`);
+                if (!responseUsers.ok) throw new Error("Failed to fetch user data.");
+
+                const users = await responseUsers.json();
+                if (users.length === 0) {
+                    alert("User not found!");
+                    return;
+                }
+
+                const user = users[0]; // Get logged-in user
+                const userId = user.id;
+
+                // Fetch latest products from DB
+                const responseProducts = await fetch("http://localhost:3000/products");
+                if (!responseProducts.ok) throw new Error("Failed to fetch products.");
+
+                const latestProducts = await responseProducts.json();
+
+                // Filter out deleted products from cart
+                let updatedCart = user.cartProducts.filter(cartItem =>
+                    latestProducts.some(product => product.id === cartItem.id)
+                );
+
+                // Update product details in the cart (if any product has changed)
+                updatedCart = updatedCart.map(cartItem => {
+                    const updatedProduct = latestProducts.find(product => product.id === cartItem.id);
+                    return updatedProduct ? { ...updatedProduct } : cartItem;
+                });
+
+                // Update only this user's cart in DB
+                await fetch(`http://localhost:3000/users/${userId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cartProducts: updatedCart }),
+                });
+
+                // Display updated cart
+                const cartContainer = document.querySelector(".cart-container");
+                cartContainer.innerHTML = ""; // Clear previous content
+
+                if (updatedCart.length === 0) {
+                    cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+                    return;
+                }
+
+                updatedCart.forEach(product => {
+                    const productDiv = document.createElement("div");
+                    productDiv.classList.add("cart-item");
+                    productDiv.innerHTML = `
+                        <div class="cart-img">
+                            <img src="${product.productImage}" alt="${product.productName}" width="100">
+                        </div>
+                        <div class="cart-details">
+                            <p class="product-name">${product.productName}</p>
+                            <p class="product-price">₹${product.productPrice}</p>
+                        </div>
+                    `;
+                    cartContainer.appendChild(productDiv);
+                });
+
+            } catch (error) {
+                console.error("Error loading cart:", error);
+                alert("Error loading cart!");
+            }
+        }
+
+        // Load the cart when the page is opened
+        loadCart();
+    </script>
+</body>
+
+</html>

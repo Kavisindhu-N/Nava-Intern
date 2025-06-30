@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <script src="authentication.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            overflow: hidden;
+        }
+
+        header {
+            width: 100%;
+            height: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #00004C;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .products-container {
+            margin-top: 10px;
+            height: 82%;
+            width: 97%;
+            background-color: #f2f3f2;
+            border-radius: 10px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .new-product {
+            width: 200px;
+            height: 250px;
+            border: 1px solid gray;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            border-radius: 10px;
+            flex-basis: 17%;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .imgcont {
+            border-radius: 5px;
+            height: 250px;
+            width: 200px;
+            overflow: hidden;
+        }
+
+        .imgcont img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 5px;
+        }
+
+        .new-product button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            padding: 8px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .new-product button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Shopping Cart</h1>
+    </header>
+    <div class="products-container"></div>
+
+    <script>
+        async function loadCart() {
+            const productsContainer = document.querySelector(".products-container");
+            const loggedInUserId = localStorage.getItem("loggedInUser");
+
+            if (!loggedInUserId) {
+                productsContainer.innerHTML = "<p>Please log in to view your cart.</p>";
+                return;
+            }
+
+            try {
+                const userResponse = await fetch(`http://localhost:3000/users/${loggedInUserId}`);
+                if (!userResponse.ok) throw new Error("Failed to fetch user data.");
+
+                const user = await userResponse.json();
+
+                if (!user.cart || user.cart.length === 0) {
+                    productsContainer.innerHTML = "<p>Your cart is empty.</p>";
+                    return;
+                }
+
+                const productsResponse = await fetch("http://localhost:3000/products");
+                if (!productsResponse.ok) throw new Error("Failed to fetch products.");
+
+                const products = await productsResponse.json();
+                let updatedCart = [];
+
+                user.cart.map(cartItem => {
+                    const product = products.find(p => String(p.id) === String(cartItem.productId));
+                    if (product) {
+                        updatedCart.push({
+                            productId: product.id,
+                            productName: product.productName,
+                            productPrice: product.productPrice,
+                            productImage: product.productImage
+                        });
+                    }
+                });
+
+                if (JSON.stringify(updatedCart) !== JSON.stringify(user.cart)) {
+                    const updateResponse = await fetch(`http://localhost:3000/users/${loggedInUserId}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ cart: updatedCart })
+                    });
+
+                    if (!updateResponse.ok) throw new Error("Failed to update cart.");
+                }
+
+                productsContainer.innerHTML = updatedCart.length === 0
+                    ? "<p>Your cart is empty.</p>"
+                    : "";
+
+                updatedCart.map(cartItem => {
+                    const productDiv = document.createElement("div");
+                    productDiv.classList.add("new-product");
+
+                    productDiv.innerHTML = `
+                <div class="imgcont"><img src="${cartItem.productImage}" alt="${cartItem.productName}"></div>
+                <p class="product-name">${cartItem.productName}</p>
+                <p class="product-price">₹${cartItem.productPrice}</p>
+                <button class="remove-btn" data-id="${cartItem.productId}">Remove</button>
+            `;
+
+                    productsContainer.appendChild(productDiv);
+                });
+
+                document.querySelectorAll(".remove-btn").forEach(button => {
+                    button.addEventListener("click", async function () {
+                        const productId = this.getAttribute("data-id");
+                        await removeFromCart(productId);
+                    });
+                });
+
+            } catch (error) {
+                console.error("Cart Load Error:", error);
+                productsContainer.innerHTML = `<p>Error loading cart: ${error.message}</p>`;
+            }
+        }
+
+        // Function to remove item from cart with error handling
+        async function removeFromCart(productId) {
+            const loggedInUserId = localStorage.getItem("loggedInUser");
+
+            if (!loggedInUserId) {
+                alert("No user is logged in.");
+                return;
+            }
+
+            try {
+                const userResponse = await fetch(`http://localhost:3000/users/${loggedInUserId}`);
+                if (!userResponse.ok) throw new Error("Failed to fetch user data.");
+
+                const user = await userResponse.json();
+
+                const updatedCart = user.cart.filter(item => String(item.productId) !== String(productId));
+
+                const updateResponse = await fetch(`http://localhost:3000/users/${loggedInUserId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart: updatedCart })
+                });
+
+                if (!updateResponse.ok) throw new Error("Failed to update cart.");
+
+                alert("Item removed from cart.");
+                loadCart();
+            } catch (error) {
+                console.error("Remove Error:", error);
+                alert(`Error removing item: ${error.message}`);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCart);
+
+    </script>
+</body>
+
+</html>

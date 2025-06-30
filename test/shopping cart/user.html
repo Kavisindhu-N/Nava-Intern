@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKEA</title>
+    <link rel="icon" href="img/logo2.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="authentication.js"></script>
+
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            overflow-x: hidden;
+            /* Hide horizontal scroll */
+            width: 100vw;
+            font-family: "Montserrat", sans-serif;
+
+        }
+
+        .img_sliding_container {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider-track {
+            display: flex;
+            width: 500vw;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slider-track>img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        header>nav>div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+        }
+
+        header>nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+
+            img {
+                height: 30px;
+                width: 30px;
+                margin-left: 10px;
+                border-radius: 10px;
+            }
+
+        }
+
+        header>nav>ul {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 60px;
+            padding: 20px;
+            list-style: none;
+
+            a {
+                text-decoration: none;
+                color: white;
+            }
+
+            li {
+                cursor: pointer;
+            }
+
+            button {
+                padding: 10px;
+                width: 100px;
+
+            }
+
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+
+        main {
+            position: absolute;
+            top: 0%;
+            z-index: -1;
+        }
+
+        .items {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 50px;
+            margin-top: 600px;
+            max-width: 100vw;
+
+            .items-name>div {
+                height: 170px;
+                width: 170px;
+                border-radius: 10px;
+                box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .items>.items-name>div {
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .items>.items-name>p {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .items>.items-name>div:hover {
+            transform: scale(1.1);
+        }
+
+        .side-navbar {
+            background-color: white;
+            width: 25%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: -25%;
+            padding: 20px;
+            transition: 1s;
+        }
+
+        .side-navbar>div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-navbar>div>a {
+            margin-bottom: 25px;
+            text-decoration: none;
+            color: black;
+            
+        }
+
+        .side-navbar>div>a:hover {
+            text-decoration: underline;
+        }
+
+
+        .side-navbar>p {
+            text-align: right;
+        }
+
+
+        #logOutButton {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        
+
+        .side-navbar-links>p{
+            background-color: gray;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        /* footer {
+            background-color: black;
+        } */
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <header>
+        <nav>
+            <div>
+                <img src="img/logo2.jpg" alt="">
+                <h3>IKEA</h3>
+            </div>
+
+            <ul>
+                <!-- <a href="cart.html">
+                    <li>Go To Cart</li>
+                </a>
+                <a href="">
+                    <li>About</li>
+                </a> -->
+                <!-- <li><button id="logOutButton">Log out</button></li> -->
+                <i class="fa-solid fa-bars" onclick="showNavbar()"></i>
+            </ul>
+
+        </nav>
+    </header>
+
+
+
+
+    <div class="side-navbar">
+        <p><i class="fa-solid fa-xmark" onclick="closeNavbar()"></i></p>
+        <div class="side-navbar-links">
+            <p>Welcome, <span id="loggedInUserName"></span>!</p>
+            <a href="user.html">Home</a>
+            <a href="statue.html">Decorative Sculptures</a>
+            <a href="plants.html">Indoor Plants</a>
+            <a href="lamps.html">Table Lamps</a>
+            <a href="wall.html">Wall Hangings</a>
+            <a href="cart.html">Go To Cart</a>
+            <button id="logOutButton"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+        </div>
+    </div>
+
+
+
+
+
+    <main>
+        <div class="img_sliding_container">
+            <div class="slider-track" id="slideTrack">
+                <img src="img/slide1.png" alt="image">
+                <img src="img/slide2.png" alt="image">
+                <img src="img/slide3.jpg" alt="image">
+                <img src="img/slide4.jpg" alt="image">
+                <img src="img/slide5.jpg" alt="image">
+            </div>
+        </div>
+    </main>
+
+
+
+
+    <div class="items" id="items">
+        <div class="items-name">
+            <div>
+                <a href="statue.html"><img src="img/items-statue.jpg" alt=""></a>
+            </div>
+            <p>Decorative Sculptures</p>
+        </div>
+
+
+        <div class="items-name">
+            <div>
+                <a href="plants.html"><img src="img/items-plant.jpg" alt=""></a>
+            </div>
+            <p>Indoor Plants</p>
+        </div>
+
+
+        <div class="items-name">
+            <div>
+                <a href="lamps.html"><img src="img/items-light.jpg" alt=""></a>
+            </div>
+            <p>Table Lamps</p>
+        </div>
+
+
+        <div class="items-name">
+            <div>
+                <a href="wall.html"><img src="img/items-wall.jpg" alt=""></a>
+            </div>
+            <p>Wall Hangings</p>
+        </div>
+
+    </div>
+
+    <footer>
+
+    </footer>
+
+
+    <script>
+
+        // AUTO SCROLLING
+
+        const slideTrack = document.getElementById("slideTrack");
+        let index = 0;
+        const totalImages = document.querySelectorAll(".slider-track img").length;
+
+        setInterval(() => {
+            index = (index + 1) % totalImages; // Loop back to first image
+            slideTrack.style.transform = `translateX(-${index * 100}vw)`
+        }, 3000); // Change image every 2 seconds
+
+
+
+        //SIDE NAV
+        const sideNav = document.querySelector(".side-navbar")
+
+
+        function showNavbar() {
+            sideNav.style.left = "0";
+        }
+
+        function closeNavbar() {
+            sideNav.style.left = "-25%";
+
+        }
+
+        //Diaplay Logged In User Name
+        const loggedInUserName = localStorage.getItem("loggedInUserName");
+        document.getElementById("loggedInUserName").textContent=loggedInUserName;
+
+        // LOG OUT FUNCTIONALITY
+        const logOutButton = document.getElementById("logOutButton");
+        logOutButton.addEventListener("click", () => {
+            const loggedInUserId = localStorage.getItem("loggedInUser");
+
+            if (loggedInUserId) {
+                localStorage.removeItem("loggedInUser");
+                alert("Logged out successfully.");
+                window.location.href = "loginandsignup.html";
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,373 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    /* overflow: hidden; */
+    width: 100vw;
+    height: 100vh;
+}
+
+
+
+main {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+main>aside {
+    /* display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow: hidden; */
+    height: 100%;
+    width: 25%;
+    border-right: 1px solid black;
+    position: relative;
+}
+
+main>aside>.admin-name {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    gap: 70px;
+    background-color: #00004C;
+    color: white;
+}
+
+main>aside>.admin-name>img {
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
+
+main>aside>.admin-action {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: auto;
+    width: 100%;
+    padding: 10px;
+    /* position: relative; */
+}
+
+.section2 {
+    height: 100%;
+    width: 100%;
+    /* position: relative; */
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+header>button {
+    width: 100px;
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+    background-color: #00004C;
+    color: white;
+    cursor: pointer;
+}
+
+header>button:active {
+    transform: scale(0.9);
+}
+
+/* Dropdown Button */
+.admin-action>.dropdown>.dropbtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+
+}
+
+/* Dropdown Content */
+.dropdown {
+    width: 100%;
+    position: relative;
+
+}
+
+.dropdown-content {
+    position: absolute;
+    /* Allows it to float */
+    top: 100%;
+    width: 100%;
+    z-index: 1;
+    display: none;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+.dropdown-content>button {
+    display: block;
+    padding: 10px;
+    border: none;
+    background-color: white;
+    width: 100%;
+    color: black;
+    text-align: left;
+
+}
+
+/* Hover to show dropdown */
+.dropbtn:hover+.dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+.dropdown-content>button:hover {
+    background-color: #00004C;
+    color: white;
+}
+
+.admin-action>.customer-details {
+    /* position: relative; */
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+    margin-top: 10px;
+
+
+}
+
+.hidden {
+    display: none;
+}
+
+
+.section2>.container {
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 15px;
+}
+
+
+
+.container>.category-section {
+    height: 100%;
+    width: 100%;
+    background-color: #f2f3f2;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+
+.category-section>.category-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-section>div>button {
+    padding: 0 10px;
+    background-color: #00004C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+.category-section>div>button:active {
+
+    transform: scale(0.9);
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.add-product-popup {
+    height: 60%;
+    width: 30%;
+    position: absolute;
+    top: 25%;
+    left: 45%;
+    /* border: 1px solid grey; */
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    /* column-gap: 20px; */
+    background-color: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+
+}
+
+.add-product-popup>.pi-fields {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* border: 1px solid black; */
+
+}
+
+
+
+.add-product-popup>.pi-fields>#imageContainer {
+
+    width: 170px;
+    height: 170px;
+
+    /* background-color:rgb(250, 246, 246); */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.add-product-popup>.pi-fields>input {
+
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid gray;
+    outline: none;
+
+}
+
+.add-product-popup>.pi-fields>input[type="file"] {
+    border: none;
+}
+
+.add-product-popup>.sud-buttons {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    /* border: 1px solid black; */
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+
+}
+
+.add-product-popup>.sud-buttons>button {
+    flex-basis: 49%;
+    flex-grow: 1;
+    cursor: pointer;
+    border: none;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.add-product-popup>.sud-buttons>button:active {
+    transform: scale(0.9);
+}
+
+.add-product-popup>.sud-buttons>button:nth-child(odd) {
+    background-color: #35ae2a;
+}
+
+.add-product-popup>.sud-buttons>button:nth-child(even) {
+    background-color: red;
+}
+
+#imageContainer>#previewImage {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+}
+
+.category-section>.products-container {
+    margin-top: 7px;
+    height: 90%;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.new-product {
+    width: 200px;
+    height: 250px;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    border-radius: 10px;
+    flex-basis: 24%;
+    
+
+}
+
+.new-product>.imgcont {
+    border-radius: 5px;
+    height: 170px;
+    width: 170px;
+    overflow: hidden;
+
+}
+
+.new-product>.imgcont>img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.new-product>.product-name {
+    font-size: 13px;
+    color: gray;
+    padding: 0;
+    
+}
+
+.new-product>p{
+width: 100%;
+
+}
+
+.new-product>.ed-buttons {
+    display: flex;
+    gap: 2px;
+    width: 100%;
+}
+
+.new-product>.ed-buttons>button {
+    flex-basis: 50%;
+    background-color: #00004C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+

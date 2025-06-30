@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Sing up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+
+
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            font-family: "Montserrat", sans-serif;
+            background: url('img/slide5.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .overlay {
+            background-color: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(7px);
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .auth-container> ::placeholder {
+            color: grey;
+        }
+
+        .auth-container {
+            display: flex;
+            background-color: black;
+            color: white;
+            width: fit-content;
+            flex-direction: column;
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+            /* background-color: rgba(30, 30, 30, 0.2);
+            backdrop-filter: blur(10px); */
+
+            label,
+            button,
+            p,
+            h2 {
+                margin-top: 10px;
+
+            }
+
+            label {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+            }
+
+        }
+
+        .auth-container>input {
+            width: 300px;
+            border: none;
+            background-color: transparent;
+            border-bottom: 1px solid dodgerblue;
+            outline: none;
+            padding: 10px;
+            color: white;
+            margin-bottom: 20px;
+
+        }
+
+        button {
+            font-size: 17px;
+            padding: 0.5em 2em;
+            border: none;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            background: dodgerblue;
+            color: white;
+
+
+        }
+
+        button:hover {
+
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(30, 144, 255, 1) 0%, rgba(0, 212, 255, 1) 100%);
+        }
+
+        .auth-container>.button {
+            display: flex;
+            width: 100%;
+
+            button:first-child {
+                border-right: 1px solid black;
+            }
+
+            button {
+                flex-basis: 50%;
+                border: none;
+                padding: 10px;
+                background-color: dodgerblue;
+            }
+        }
+
+        .auth-container>label {
+            margin-bottom: 13px;
+        }
+
+        .auth-container>h2 {
+            margin-top: 30px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+    <div class="overlay">
+
+        <!-- SIGN UP FORM-->
+
+        <div class="auth-container sing-up">
+
+            <div class="button">
+                <button type="button" onclick="displayLogin(event)">Login</button>
+                <button type="button" onclick="displaySingUp(event)">Sing up</button>
+            </div>
+
+            <h2>Sing up</h2>
+            <input type="text" placeholder="Name" id="signup-name">
+            <input type="email" placeholder="Email" id="signup-email">
+            <input type="password" placeholder="Password" id="signup-password">
+            <button type="button" onclick="signUp(event)">Sing up</button>
+
+
+        </div>
+
+
+
+        <!-- LOGIN FORM -->
+
+        <div class="auth-container login">
+
+            <div class="button">
+                <button type="button" onclick="displayLogin(event)">Login</button>
+                <button type="button" onclick="displaySingUp(event)">Sing up</button>
+            </div>
+
+            <h2>Login</h2>
+            <input type="text" placeholder="Email" id="login-email">
+            <input type="password" placeholder="Password" id="login-password">
+            <label>
+                <input type="radio" name="role" value="admin">Admin
+                <input type="radio" name="role" value="user">User
+            </label>
+
+            <button type="button" onclick="login(event)">Login</button>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        //  VISIBILITY OF SIGN UP AND LOGIN FROM
+
+        document.querySelector(".login").classList.add("hidden")
+
+        function displayLogin(event) {
+            event.preventDefault();
+
+            document.querySelector(".sing-up").classList.add("hidden");
+            document.querySelector(".login").classList.remove("hidden");
+        }
+
+        function displaySingUp(event) {
+            event.preventDefault();
+            document.querySelector(".sing-up").classList.remove("hidden");
+            document.querySelector(".login").classList.add("hidden");
+        }
+
+
+
+
+        // SIGN UP VALIDATIONS
+
+        async function signUp(event) {
+
+            event.preventDefault();
+
+            // Getting input values
+            let signup_name = document.querySelector("#signup-name").value.trim();
+            let signup_email = document.querySelector("#signup-email").value.trim();
+            let signup_password = document.querySelector("#signup-password").value.trim();
+
+            // Check if any field is empty
+            if (!signup_name || !signup_email || !signup_password) {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            //Fetching the data and validate if it is existing user
+            let response = await fetch("http://localhost:3000/users");
+            let users = await response.json();
+            let existingUser = users.find(user => user.email === signup_email);
+
+            if (existingUser) {
+                alert("User already exists! Please log in.");
+                displayLogin(event);
+                return;
+            }
+
+
+            //Registering new user
+            let newUser = {
+                name: signup_name,
+                email: signup_email,
+                password: signup_password
+    
+            };
+
+            let res = await fetch("http://localhost:3000/users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newUser)
+            });
+
+            if (res.ok) {
+                alert("Signup successful! Please log in.");
+                displayLogin(event);
+            } else {
+                alert("Error signing up. Try again.");
+            }
+        }
+
+
+
+
+        
+
+        // LOGIN VALIDATIONS
+
+        async function login(event) {
+            event.preventDefault();
+
+            // Getting Input Values
+            let login_email = document.getElementById("login-email").value.trim();
+            let login_password = document.getElementById("login-password").value.trim();
+            let login_role = document.querySelector('input[name="role"]:checked');
+
+            // Validation to prevent empty fields
+            if (!login_email || !login_password || !login_role) {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+
+            //Fetching User and Admin data
+            let responseUsers = await fetch("http://localhost:3000/users");
+            let responseAdmin = await fetch("http://localhost:3000/admin")
+            let users = await responseUsers.json();
+            let admin = await responseAdmin.json();
+
+
+            // validation of user and admin
+            let existingUser = users.find(user => user.email === login_email);
+            let adminLogin = admin.email === login_email ? admin : null;
+
+
+            // validation of user credentiels and redirecting them to user Dashboard
+            if (existingUser) {
+                if (existingUser.password !== login_password) {
+                    alert("Invalid Password");
+                    return;
+                }
+
+                if (login_role.value === "user") {
+                
+                    alert("Login successful");
+                    window.location.href = "user_dashboard.html";
+                } else {
+                    alert("Invalid role! Please select the correct role.");
+                }
+            }
+
+            // Validation of admin Credentiels and Redirecting them to admin dashboard
+            if (adminLogin) {
+                if (adminLogin.password !== login_password) {
+                    alert("Invalid Password");
+                    return;
+                }
+
+                if (login_role.value === "admin") {
+                    alert("Login Successful");
+                    
+                    window.location.href = "admin_dashboard.html";
+                } else {
+                    alert("Invalid role! Please select the correct role.");
+                }
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

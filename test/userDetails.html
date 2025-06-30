@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <style>
+        /* * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .user-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .user-container p {
+            margin: 5px 0;
+        }
+
+        .user-container h2 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .error {
+            color: red;
+            margin-top: 20px;
+        } */
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            background-color: #00004C;
+            color: white;
+            padding: 20px;
+
+        }
+
+        .user-container {
+            /* background-color: #f2f3f2; */
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .user-container>.header>h4 {
+            flex-basis: 33.3%;
+        }
+
+        .user-container>.header,
+        .user-information {
+            display: flex;
+            /* justify-content: space-between; */
+
+            margin-left: 50px;
+            margin-right: 50px;
+            border: 1px solid gray;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .user-information {
+            margin-top: 20px;
+        }
+
+        .user-information>h4 {
+            flex-basis: 33.3%;
+            font-size: 15px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>User Details</h2>
+    <div class="user-container" id="user-container">
+        <!-- User details will be displayed here -->
+        <div class="header">
+            <h4>User ID</h4>
+            <h4>User Name</h4>
+            <h4>User Email</h4>
+        </div>
+        <!-- <div class="user-information"></div> -->
+    </div>
+
+    <script>
+        async function fetchUserDetails() {
+            try {
+                const response = await fetch(`http://localhost:3000/users`);
+                if (!response.ok) throw new Error("Failed to fetch user details");
+
+                const users = await response.json();
+                console.log(users);
+
+                const userContainer = document.getElementById("user-container");
+
+                users.forEach(user => {
+                    const userDiv = document.createElement("div");
+                    userDiv.classList.add("user-information");
+
+                    userDiv.innerHTML = `
+                        <h4>${user.id}</h4>
+                        <h4>${user.name}</h4>
+                        <h4>${user.email}</h4>
+                    `;
+
+                    userContainer.appendChild(userDiv);
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchUserDetails();
+    </script>
+</body>
+
+</html>

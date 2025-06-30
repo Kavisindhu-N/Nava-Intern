@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="script.js" defer></script> -->
+    <!-- <script src="test.js" defer></script> -->
+    <script src="er.js" defer></script>
+</head>
+
+<body>
+
+
+    <main>
+
+        <aside>
+            <div class="admin-name">
+                <img src="img/logo2.jpg" alt="Logo">
+                <h3>Admin</h3>
+            </div>
+
+            <div class="admin-action">
+                <div class="dropdown">
+                    <button class="dropbtn">Categories</button>
+                    <div class="dropdown-content">
+                        <button type="button">Statue</button>
+                        <button type="button">Plants</button>
+                        <button type="button">Lamps</button>
+                        <button type="button">Wall Hangings</button>
+                    </div>
+                </div>
+
+                <button type="button" class="customer-details" onclick="displayUserDetails()">Customer Details</button>
+            </div>
+        </aside>
+
+
+
+
+
+        <div class="section2">
+            <header>
+                <search></search>
+                <button type="button">Log out</button>
+            </header>
+
+            <div class="container">
+                <div id="statue" class="category-section">
+                    <div class="category-section-header">
+                        <h2>Statue</h2>
+                        <button type="button">Add Product</button>
+                    </div>
+                    <hr>
+                    <div class="products-container">
+                        <!-- <div class="new-product">
+                            <div class="imgcont"><img src="img/slide5.jpg" alt=""></div>
+                            <p class="product-name">Wall Decor</p>
+                            <p class="procut-price">6756</p>
+                            <div class="ed-buttons">
+                                <button type="button">Edit</button>
+                                <button type="button">Delete</button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+
+                <div id="plants" class="category-section">
+                    <div class="category-section-header">
+                        <h2>Plants</h2>
+                        <button type="button">Add Product</button>
+                    </div>
+                    <hr>
+                    <div class="products-container"></div>
+                </div>
+
+
+                <div id="lamps" class="category-section">
+                    <div class="category-section-header">
+                        <h2>Lamps</h2>
+                        <button type="button">Add Product</button>
+                    </div>
+                    <hr>
+                    <div class="products-container"></div>
+                </div>
+
+
+                <div id="wall-hangings" class="category-section">
+                    <div class="category-section-header">
+                        <h2>Wall Hangings</h2>
+                        <button type="button">Add Product</button>
+                    </div>
+                    <hr>
+                    <div class="products-container"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Both will work only if it is wrapped inside a <form></form> tag else clear the input field manually
+        <button type="reset" id="cancelPopup">Cancel</button>
+        <input type="reset" id="cancelPopup" value="Cancel"> -->
+
+
+
+        <div class="overlay">
+            <div class="add-product-popup">
+                <div class="pi-fields">
+                    <div id="imageContainer">
+                        <img id="previewImage" src="">
+                    </div>
+
+                    <input type="file" id="imageInput" accept="image/*" required>
+                    <input type="text" id="productName" placeholder="Product Name" required>
+                    <input type="text" id="productPrice" placeholder="Price" required>
+                </div>
+
+                <div class="sud-buttons">
+                    <button type="button" id="saveProduct">Save</button>
+                    <button type="button" id="cancelPopup">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </main>
+</body>
+
+</html>

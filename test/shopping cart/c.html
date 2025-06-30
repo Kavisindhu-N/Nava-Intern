@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <script src="authentication.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            overflow: hidden;
+        }
+
+        header {
+            width: 100%;
+            height: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #00004C;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .products-container {
+            margin-top: 10px;
+            height: 72%;
+            width: 97%;
+            background-color: #f2f3f2;
+            border-radius: 10px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .new-product {
+            width: 200px;
+            height: 300px;
+            border: 1px solid gray;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            border-radius: 10px;
+            flex-basis: 17%;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .imgcont {
+            border-radius: 5px;
+            height: 200px;
+            width: 200px;
+            overflow: hidden;
+        }
+
+        .imgcont img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 5px;
+        }
+
+        .quantity {
+            width: 60px;
+            margin: 5px;
+        }
+
+        .total-price-container {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Shopping Cart</h1>
+    </header>
+    <div class="products-container"></div>
+    <p class="total-price-container">Total Price: ₹0.00</p>
+
+    <script>
+        async function loadCart() {
+            const productsContainer = document.querySelector(".products-container");
+            const totalPriceContainer = document.querySelector(".total-price-container");
+            const loggedInUserId = localStorage.getItem("loggedInUser");
+
+            try {
+                const [userResponse, productsResponse] = await Promise.all([
+                    fetch(`http://localhost:3000/users/${loggedInUserId}`),
+                    fetch("http://localhost:3000/products")
+                ]);
+
+                if (!userResponse.ok || !productsResponse.ok) throw new Error("Failed to fetch data.");
+
+                const user = await userResponse.json();
+                const products = await productsResponse.json();
+
+                if (!user.cart || user.cart.length === 0) {
+                    productsContainer.innerHTML = "<p>Your cart is empty.</p>";
+                    totalPriceContainer.textContent = "Total Price: ₹0.00";
+                    return;
+                }
+
+                let updatedCart = [];
+                let totalPrice = 0;
+                let removedItems = false;
+
+                productsContainer.innerHTML = "";
+
+                for (const cartItem of user.cart) {
+                    const product = products.find(p => String(p.id) === String(cartItem.productId));
+
+                    if (product) {
+                        const quantity = parseInt(cartItem.quantity) || 1;
+                        const itemTotal = quantity * parseFloat(product.productPrice);
+                        totalPrice += itemTotal;
+
+                        const productDiv = document.createElement("div");
+                        productDiv.classList.add("new-product");
+
+                        productDiv.innerHTML = `
+                    <div class="imgcont"><img src="${product.productImage}" alt="${product.productName}"></div>
+                    <p class="product-name">${product.productName}</p>
+                    <p class="product-price">₹${product.productPrice}</p>
+                    <input type="number" class="quantity" min="1" value="${quantity}" data-id="${product.id}" data-price="${product.productPrice}">
+                    <button class="remove-btn" data-id="${product.id}">Remove</button>
+                `;
+                        productsContainer.appendChild(productDiv);
+
+                        // Always store product name and price in cart (optional, if your DB supports this)
+                        updatedCart.push({
+                            productId: product.id,
+                            quantity: quantity,
+                            productName: product.productName,
+                            productPrice: product.productPrice,
+                            productImage: product.productImage
+                        });
+
+                    } else {
+                        removedItems = true;
+                        console.warn(`Product ID ${cartItem.productId} no longer exists.`);
+                    }
+                }
+
+                totalPriceContainer.textContent = `Total Price: ₹${totalPrice.toFixed(2)}`;
+
+                // Always update cart DB on refresh to sync with latest product DB
+                await fetch(`http://localhost:3000/users/${loggedInUserId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart: updatedCart })
+                });
+
+                if (removedItems) {
+                    alert("Some items were removed from your cart because they're no longer available.");
+                }
+
+            } catch (error) {
+                console.error("Cart Load Error:", error);
+                productsContainer.innerHTML = `<p>Error loading cart: ${error.message}</p>`;
+            }
+        }
+
+        async function updateCartQuantity(productId, newQuantity) {
+            const loggedInUserId = localStorage.getItem("loggedInUser");
+            if (!loggedInUserId) return;
+
+            try {
+                const userResponse = await fetch(`http://localhost:3000/users/${loggedInUserId}`);
+                const user = await userResponse.json();
+
+                const updatedCart = user.cart.map(item =>
+                    String(item.productId) === String(productId)
+                        ? { ...item, quantity: newQuantity }
+                        : item
+                );
+
+                await fetch(`http://localhost:3000/users/${loggedInUserId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart: updatedCart })
+                });
+
+                loadCart(); // <-- Refresh UI
+            } catch (error) {
+                console.error("Update Quantity Error:", error);
+            }
+        }
+
+
+        async function removeFromCart(productId) {
+            const loggedInUserId = localStorage.getItem("loggedInUser");
+            if (!loggedInUserId) return;
+
+            try {
+                const userResponse = await fetch(`http://localhost:3000/users/${loggedInUserId}`);
+                const user = await userResponse.json();
+
+                const updatedCart = user.cart.filter(item => String(item.productId) !== String(productId));
+
+                await fetch(`http://localhost:3000/users/${loggedInUserId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart: updatedCart })
+                });
+
+                alert("Item removed from cart.");
+                loadCart();
+            } catch (error) {
+                console.error("Remove Error:", error);
+            }
+        }
+
+        function updateTotalPriceUI() {
+            let total = 0;
+            document.querySelectorAll(".quantity").forEach(input => {
+                const price = parseFloat(input.dataset.price);
+                const quantity = parseInt(input.value) || 1;
+                total += price * quantity;
+            });
+            document.querySelector(".total-price-container").textContent = `Total Price: ₹${total.toFixed(2)}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadCart();
+
+            document.querySelector(".products-container").addEventListener("input", function (event) {
+                if (event.target.classList.contains("quantity")) {
+                    const productId = event.target.dataset.id;
+                    const quantity = parseInt(event.target.value) || 1;
+                    updateCartQuantity(productId, quantity); // already fixed
+                    updateTotalPriceUI(); // already good
+                }
+            });
+
+
+            document.querySelector(".products-container").addEventListener("click", function (event) {
+                if (event.target.classList.contains("remove-btn")) {
+                    const productId = event.target.dataset.id;
+                    removeFromCart(productId);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
